@@ -1,0 +1,50 @@
+<div class="container">
+  <div class="row align-items-start">
+    <div class="col-md-10">
+
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col" class="image-column"><input type="text" class="form-control" placeholder="Filter by name"
+              aria-describedby="basic-addon1" #search (keyup)="filterByName(search.value)" /></th>
+            <th scope="col" *ngFor="let item of tableHeaderNames">{{item}}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let pizza of pizzasFromDb">
+           <th scope="row" class="align-middle"><img src="{{pizza.image}}" alt="{{pizza.name}}" width="140px"  class="rounded-circle"></th>
+              <td >{{pizza.name}}</td>
+            <td>
+              <ul *ngFor="let topping of pizza.toppings">
+                <li >{{topping.description}}</li>
+              </ul>
+            </td>
+            <td>{{pizza.heat}}</td>
+            <td>{{pizza.price}}{{pizza.salePrice}}</td>
+          </tr>
+        </tbody>
+      </table>
+
+
+    </div>
+    <div class="col-md-2">
+      <div>
+        <h6>Filter pizzas by name</h6>
+                  <div class="row g-2">
+            <div class="col-md">
+              <div>
+                <select class="form-select">
+                  <option default value="">Select topping</option>
+                  <option *ngFor="let topping of activeUniqueToppings; let i = index" value="{{topping.description}}">{{topping.description}}</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        <ul class="list-group" >
+          <li class="list-group-item"*ngFor="let topping of selectedToppings; let i = index">{{topping.description}}<button type="button" class="btn-close float-end" (click)="deleteSelectedTopping(i)" aria-label="Close"></button></li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</div>

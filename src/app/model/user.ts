@@ -1,7 +1,8 @@
 export interface User{
-id: number;
+id?: number;
 name: string;
 email: string;
-age: number;
-password?: string;
+role?: string;
+isActive?:boolean;
+password: string;
 }
