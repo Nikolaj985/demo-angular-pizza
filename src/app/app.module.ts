@@ -1,4 +1,4 @@
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -12,6 +12,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SignupFormComponent } from './signup-form/signup-form.component';
 import { ToastrModule } from 'ngx-toastr';
 import { AddPizzaComponent } from './add-pizza/add-pizza.component';
+import { RequestInterceptorService } from './interceptors/request-interceptor.service';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,9 @@ import { AddPizzaComponent } from './add-pizza/add-pizza.component';
       tapToDismiss: false,
     }),
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: RequestInterceptorService, multi: true },
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

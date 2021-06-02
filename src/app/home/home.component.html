@@ -1,50 +1,122 @@
 <div class="container">
   <div class="row align-items-start">
     <div class="col-md-10">
-
       <table class="table table-striped">
         <thead>
           <tr>
-            <th scope="col" class="image-column"><input type="text" class="form-control" placeholder="Filter by name"
-              aria-describedby="basic-addon1" #search (keyup)="filterByName(search.value)" /></th>
-            <th scope="col" *ngFor="let item of tableHeaderNames">{{item}}</th>
+            <th scope="col" class="image-column">
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Filter by name"
+                aria-describedby="basic-addon1"
+                #search
+                (keyup)="filterByName(search.value)"
+              />
+            </th>
+            <ng-container *ngFor="let item of tableHeaderNames">
+              <th scope="col" *ngIf="item == 'Toppings'">
+                {{ item }}
+              </th>
+              <th
+                scope="col"
+                class="sort"
+                *ngIf="item != 'Toppings'"
+                (click)="sortByHeader(item)"
+              >
+                {{ item }}
+              </th>
+            </ng-container>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let pizza of pizzasFromDb">
-           <th scope="row" class="align-middle"><img src="{{pizza.image}}" alt="{{pizza.name}}" width="140px"  class="rounded-circle"></th>
-              <td >{{pizza.name}}</td>
-            <td>
+          <tr *ngFor="let pizza of pizzasFromDb" [ngClass]="{'deleted': !pizza.isActive}">
+            <th scope="row" class="align-middle">
+              <img
+                src="{{ pizza.image }}"
+                alt="{{ pizza.name }}"
+                width="140px"
+                class="rounded-circle"
+              />
+            </th>
+            <td class="align-middle">{{ pizza.name }} </td>
+            <td class="align-middle">
+              <img
+              src="{{ pizza.heat == mild ? '../../assets/mild.png' : pizza.heat == hot ? '../../assets/hot.png' : '../../assets/burn.png' }}"
+              alt="{{ pizza.name }}"
+              width="60px"
+            />
+            </td>
+            <td class="align-middle">
               <ul *ngFor="let topping of pizza.toppings">
-                <li >{{topping.description}}</li>
+                <li>{{ topping.description }}</li>
               </ul>
             </td>
-            <td>{{pizza.heat}}</td>
-            <td>{{pizza.price}}{{pizza.salePrice}}</td>
+            <td class="align-middle" *ngIf="pizza.salePrice == 0">
+              {{ pizza.price | currency: "EUR":"symbol":undefined:"fr-FR" }}
+            </td>
+            <td class="align-middle" *ngIf="pizza.salePrice > 0">
+              <div class="old">
+                Was:
+                <del>{{
+                  pizza.price | currency: "EUR":"symbol":undefined:"fr-FR"
+                }}</del>
+              </div>
+              <div class="sale">
+                Sale:
+                {{
+                  pizza.salePrice | currency: "EUR":"symbol":undefined:"fr-FR"
+                }}
+              </div>
+            </td>
+            <td class="align-middle">
+              <button type="button" class="btn btn-success">Add to Cart</button>
+              <button type="button" (click)="deletePizza(pizza)" class="btn btn-danger" *ngIf="pizza.isActive">Remove</button>
+              <button type="button" (click)="activatePizza(pizza)" class="btn btn-primary" *ngIf="!pizza.isActive">Activate</button>
+            </td>
           </tr>
         </tbody>
       </table>
-
-
     </div>
     <div class="col-md-2">
-      <div>
-        <h6>Filter pizzas by name</h6>
-                  <div class="row g-2">
-            <div class="col-md">
-              <div>
-                <select class="form-select">
-                  <option default value="">Select topping</option>
-                  <option *ngFor="let topping of activeUniqueToppings; let i = index" value="{{topping.description}}">{{topping.description}}</option>
-                </select>
-              </div>
+      <div class="filter-toppings">
+        <h6>Filter by Toppings</h6>
+        <div class="row g-2">
+          <div class="col-md">
+            <div>
+              <select
+                class="form-select"
+                (change)="addToppingToFiltration($event)"
+              >
+                <option default value="">Select topping</option>
+                <option
+                  *ngFor="let topping of activeUniqueToppings; let i = index"
+                  value="{{ i }}"
+                >
+                  {{ topping.description }}
+                </option>
+              </select>
             </div>
           </div>
-        <ul class="list-group" >
-          <li class="list-group-item"*ngFor="let topping of selectedToppings; let i = index">{{topping.description}}<button type="button" class="btn-close float-end" (click)="deleteSelectedTopping(i)" aria-label="Close"></button></li>
-        </ul>
+        </div>
+        <div class="selected-toppings" *ngIf="selectedToppings.length > 0">
+          <h6>Selected Toppings</h6>
+          <ul class="list-group">
+            <li
+              class="list-group-item"
+              *ngFor="let topping of selectedToppings; let i = index"
+            >
+              {{ topping.description
+              }}<button
+                type="button"
+                class="btn-close float-end"
+                (click)="deleteSelectedTopping(i)"
+                aria-label="Close"
+              ></button>
+            </li>
+          </ul>
+        </div>
       </div>
-
     </div>
   </div>
 </div>

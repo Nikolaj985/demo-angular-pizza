@@ -1,6 +1,5 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
 import { URL } from '../config';
 import { Pizza } from '../model/pizza';
 import { ResponseData } from '../shared/response-data';
@@ -20,6 +19,15 @@ export class PizzaService {
   getAllPizzas(){
     return this.httpClient.get<Pizza[]>(URL+"/pizza");
   }
+
+  deletePizza(pizza: Pizza){
+    return this.httpClient.delete<ResponseData>(URL+"/pizza/"+pizza.name);
+  }
+
+  activatePizza(pizza: Pizza){
+    return this.httpClient.put<ResponseData>(URL+"/pizza", pizza.name);
+  }
+
 
 
 

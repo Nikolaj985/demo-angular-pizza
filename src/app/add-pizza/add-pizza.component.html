@@ -21,8 +21,12 @@
             <label for="floatingInputGrid">Price</label>
           </div>
           <div class="form-floating">
-            <input type="number" class="form-control" id="floatingInputGrid" value="0" max="3" min="0" id="heat" formControlName="heat">
-            <label for="floatingInputGrid">Heat [0-3]</label>
+            <select class="form-select"  formControlName="heat">
+              <option value="0">Mild</option>
+              <option value="1">Hot</option>
+              <option value="2">Spicy</option>
+            </select>
+            <label for="floatingInputGrid">Heat</label>
           </div>
           <div class="form-floating">
             <input type="number" class="form-control" id="floatingInputGrid" value="0" min="0" id="salePrice" formControlName="salePrice">

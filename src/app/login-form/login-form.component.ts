@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 import { Subject } from 'rxjs';
+import { LoginService } from '../services/login.service';
 import { UserService } from '../services/user.service';
 
 @Component({
@@ -14,7 +16,7 @@ export class LoginFormComponent implements OnInit {
   public loginErrorMessage$: Subject<string>;
 
 
-  constructor(private fb: FormBuilder, private userService: UserService) { }
+  constructor(private fb: FormBuilder, private userService: UserService, private loginService: LoginService, private toastr: ToastrService) { }
 
   ngOnInit(): void {
 
@@ -45,7 +47,16 @@ export class LoginFormComponent implements OnInit {
 
 onSubmit(){
 this.userService.login(this.username.value, this.password.value).subscribe(data =>{
-  console.log(data);
+  {
+    this.toastr.success("Successfully logedin!", 'Success', {
+      positionClass: 'toast-bottom-center',
+    });
+    this.loginService.setLoginData(data);}
+},
+(error) => {
+  this.toastr.error(error.error.message, 'Error', {
+    positionClass: 'toast-bottom-center',
+  });
 });
 }
 

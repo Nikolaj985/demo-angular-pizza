@@ -37,7 +37,7 @@ export class AddPizzaComponent implements OnInit {
 
     this.newPizzaForm = this.fb.group({
       name: [
-        'Pizza Name',
+        '',
         {
           validators: [
             Validators.required,
@@ -156,7 +156,7 @@ export class AddPizzaComponent implements OnInit {
 
   selectTopping() {
     if (this.toppings.value == '') {
-      this.toastr.error('Please select topping to delete', 'Error', {
+      this.toastr.error('Please select topping', 'Error', {
         positionClass: 'toast-bottom-center',
       });
     } else {
@@ -173,7 +173,7 @@ export class AddPizzaComponent implements OnInit {
 
     this.toppingService.addNewTopping(newTopping).subscribe(
       (response) => {
-        this.toastr.success(response.message, 'Topping added!', {
+        this.toastr.success(response.message, 'Success', {
           positionClass: 'toast-bottom-center',
         });
         this.toppingsFromDB.push(newTopping);
@@ -239,6 +239,10 @@ export class AddPizzaComponent implements OnInit {
           this.toastr.success(response.message, 'Pizza added!', {
             positionClass: 'toast-bottom-center',
           });
+          this.newPizzaForm.reset({imageLink: '', heat: '0', price: '0', salePrice: '0', toppings: ''});
+          this.toppingsFromDB = this.toppingsFromDB.concat(this.selectedToppings);
+          this.selectedToppings = [];
+
         },
         (error) => {
           console.log(error);

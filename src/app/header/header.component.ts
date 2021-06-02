@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { LoginService } from '../services/login.service';
 
 @Component({
   selector: 'app-header',
@@ -7,9 +8,30 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HeaderComponent implements OnInit {
 
-  constructor() { }
+  public user: boolean = false;
+
+
+  constructor(private loginService: LoginService) {
+    this.checkAuthStatus();
+   }
 
   ngOnInit(): void {
+
   }
+
+  ngDoCheck(){
+    this.checkAuthStatus();
+  }
+
+logout(){
+  this.loginService.removeLoginData();
+  this.user = false;
+}
+
+checkAuthStatus(){
+    if(this.loginService.getRole()==="ROLE_USER"){
+      this.user = true;
+    };
+}
 
 }

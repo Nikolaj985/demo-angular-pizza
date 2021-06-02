@@ -1,15 +1,16 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AddPizzaComponent } from '../add-pizza/add-pizza.component';
+import { AuthGuard } from '../guards/auth.guard';
 import { HomeComponent } from '../home/home.component';
 import { LoginFormComponent } from '../login-form/login-form.component';
 import { SignupFormComponent } from '../signup-form/signup-form.component';
 
 const routes: Routes = [
-  { path: 'login', component: LoginFormComponent },
+  { path: 'login', component: LoginFormComponent, canActivate: [AuthGuard] },
   { path: 'home', component: HomeComponent},
   { path: 'signup', component: SignupFormComponent},
-  { path: 'add', component: AddPizzaComponent},
+  { path: 'add', component: AddPizzaComponent, canActivate: [AuthGuard]},
   //{ path: '', redirectTo: 'students', pathMatch: 'full' },
   // {
   //   path: '',

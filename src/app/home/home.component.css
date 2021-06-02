@@ -5,3 +5,34 @@ ul{
 .image-column{
   width: 200px;
 }
+
+.filter-toppings{
+  border-style: solid;
+  border-radius: 5px;
+  border-color: lightgray;
+  margin: 30px 0px;
+  padding: 20px 10px;
+
+}
+
+.selected-toppings{
+  margin: 20px 0px 0px 0px;
+}
+.sort:hover{
+  cursor: pointer;
+}
+.old{
+  color:gray;
+  opacity: 0.6;
+}
+
+.sale{
+  color: red;
+  font-weight: bolder;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+
+.deleted{
+  background-color: red;
+}

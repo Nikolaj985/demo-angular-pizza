@@ -5,7 +5,7 @@ export interface Pizza{
   name: string;
   price: number;
   image: string;
-  heat : number;
+  heat : string;
   salePrice: number;
   isActive?: boolean;
   toppings: Topping[];
