@@ -13,6 +13,7 @@ import { SignupFormComponent } from './signup-form/signup-form.component';
 import { ToastrModule } from 'ngx-toastr';
 import { AddPizzaComponent } from './add-pizza/add-pizza.component';
 import { RequestInterceptorService } from './interceptors/request-interceptor.service';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { RequestInterceptorService } from './interceptors/request-interceptor.se
     ToastrModule.forRoot({
       tapToDismiss: false,
     }),
+    FontAwesomeModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: RequestInterceptorService, multi: true },

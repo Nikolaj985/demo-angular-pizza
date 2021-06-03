@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { LoginService } from '../services/login.service';
+import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
+import { faSignInAlt } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-header',
@@ -9,6 +11,8 @@ import { LoginService } from '../services/login.service';
 export class HeaderComponent implements OnInit {
 
   public user: boolean = false;
+  public faSignOutAlt  = faSignOutAlt;
+  public faSignInAlt  = faSignInAlt;
 
 
   constructor(private loginService: LoginService) {
