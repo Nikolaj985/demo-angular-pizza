@@ -15,15 +15,14 @@
               />
             </th>
             <ng-container *ngFor="let item of tableHeaderNames">
-              <th scope="col" *ngIf="item == 'Toppings'">
+              <th scope="col" *ngIf="item == 'Toppings' || item == 'Action'">
                 {{ item }}
               </th>
               <th
                 scope="col"
                 class="sort"
-                *ngIf="item != 'Toppings'"
-                (click)="sortByHeader(item)"
-              >
+                *ngIf="!(item == 'Toppings' || item == 'Action')"
+                (click)="sortByHeader(item)" >
                 {{ item }}
               </th>
             </ng-container>
@@ -71,7 +70,7 @@
             </td>
             <td class="align-middle">
               <button type="button" class="btn btn-success">Add to Cart</button>
-              <button type="button" (click)="deletePizza(pizza)" class="btn btn-danger" *ngIf="pizza.isActive">Remove</button>
+              <button type="button" (click)="deletePizza(pizza)" class="btn btn-danger" *ngIf="pizza.isActive">Deactivate</button>
               <button type="button" (click)="activatePizza(pizza)" class="btn btn-primary" *ngIf="!pizza.isActive">Activate</button>
             </td>
           </tr>

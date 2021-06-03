@@ -34,5 +34,6 @@ ul{
 
 
 .deleted{
-  background-color: red;
+  background-color:darkgrey;
+  opacity: 0.8;
 }
