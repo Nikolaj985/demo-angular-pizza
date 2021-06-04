@@ -8,6 +8,7 @@ import localeFr from '@angular/common/locales/fr';
 import { Heat } from '../model/heat';
 import { ToastrService } from 'ngx-toastr';
 import { faTimesCircle, faCheckCircle, faEdit, faCartPlus  } from '@fortawesome/free-solid-svg-icons';
+import { LoginService } from '../services/login.service';
 
 
 registerLocaleData(localeFr, 'fr');
@@ -36,7 +37,7 @@ export class HomeComponent implements OnInit {
 
 
 
-  constructor(private pizzaService: PizzaService, private toastr: ToastrService) {}
+  constructor(private pizzaService: PizzaService, private toastr: ToastrService, private loginService: LoginService) {}
 
 
   ngOnInit(): void {
@@ -46,6 +47,11 @@ export class HomeComponent implements OnInit {
       this.getActiveUniqueToppings(this.pizzasFromDb);
     });
   }
+
+ isAuthenticated(){
+   return this.loginService.getRole() === "ROLE_USER";
+ }
+
 
   filterByName(name: string) {
     this.pizzasFromDb = this.pizzasFromDbFullList.filter((element) => {
@@ -84,9 +90,6 @@ export class HomeComponent implements OnInit {
     this.selectedToppings.forEach((element) => {
       this.activeUniqueToppings.splice(this.activeUniqueToppings.indexOf(this.activeUniqueToppings.find(i => i.description == element.description)),1);
     });
-
-
-
   }
 
   filterByTopping(array: Pizza[], element: Topping) {

@@ -70,9 +70,9 @@
             </td>
             <td class="align-middle actions">
               <fa-icon title="Add to Cart"  class="cart" [icon]="faCartPlus" (click)="addToCart()"></fa-icon>
-              <fa-icon title="Edit Pizza" class="edit" [icon]="faEdit" [routerLink]="['/edit', pizza.name]"></fa-icon>
-              <fa-icon title="Deactivate" class="deactivate" [icon]="faTimesCircle" (click)="deletePizza(pizza)" *ngIf="pizza.isActive"></fa-icon>
-              <fa-icon title="Activate" class="activate" [icon]="faCheckCircle" (click)="activatePizza(pizza)" *ngIf="!pizza.isActive"></fa-icon>
+              <fa-icon title="Edit Pizza" class="edit" [icon]="faEdit" [routerLink]="['/edit', pizza.name]" *ngIf="isAuthenticated()"></fa-icon>
+              <fa-icon title="Deactivate" class="deactivate" [icon]="faTimesCircle" (click)="deletePizza(pizza)" *ngIf="pizza.isActive && isAuthenticated()"></fa-icon>
+              <fa-icon title="Activate" class="activate" [icon]="faCheckCircle" (click)="activatePizza(pizza)" *ngIf="!pizza.isActive && isAuthenticated()"></fa-icon>
             </td>
           </tr>
         </tbody>

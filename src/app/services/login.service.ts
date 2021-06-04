@@ -38,10 +38,6 @@ getId(): string{
   return localStorage.getItem('id');
 }
 
-isAuthenticated(){
-  return this.getToken() == "" ? false : true;
-}
-
 removeLoginData(){
   localStorage.removeItem('id');
   localStorage.removeItem('username');
