@@ -283,7 +283,6 @@ this.loadPizza();
     }
   }
 
-
   submitForm() {
     if (this.selectedToppings.length < 1) {
       this.toastr.error('Select atleast one topping!', 'Error', {

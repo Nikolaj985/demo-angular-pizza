@@ -7,6 +7,9 @@ import { registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
 import { Heat } from '../model/heat';
 import { ToastrService } from 'ngx-toastr';
+import { faTimesCircle, faCheckCircle, faEdit, faCartPlus  } from '@fortawesome/free-solid-svg-icons';
+
+
 registerLocaleData(localeFr, 'fr');
 
 
@@ -26,7 +29,11 @@ export class HomeComponent implements OnInit {
   public direction = 1;
   public mild: Heat = Heat.MILD;
   public hot: Heat = Heat.HOT;
-  public editMode: boolean = false;
+  public faTimesCircle = faTimesCircle;
+  public faCheckCircle = faCheckCircle;
+  public faEdit = faEdit;
+  public faCartPlus = faCartPlus;
+
 
 
   constructor(private pizzaService: PizzaService, private toastr: ToastrService) {}
@@ -47,6 +54,7 @@ export class HomeComponent implements OnInit {
   }
 
   getActiveUniqueToppings(pizzas: Pizza[]) {
+    this.activeToppings = [];
     pizzas.forEach((pizza) => {
       pizza.toppings.forEach((topping) => {
         this.activeToppings.push(topping);
@@ -72,6 +80,13 @@ export class HomeComponent implements OnInit {
     this.selectedToppings.forEach((element) => {
       this.pizzasFromDb = this.filterByTopping(this.pizzasFromDb, element);
     });
+    this.getActiveUniqueToppings(this.pizzasFromDb);
+    this.selectedToppings.forEach((element) => {
+      this.activeUniqueToppings.splice(this.activeUniqueToppings.indexOf(this.activeUniqueToppings.find(i => i.description == element.description)),1);
+    });
+
+
+
   }
 
   filterByTopping(array: Pizza[], element: Topping) {
@@ -156,8 +171,10 @@ export class HomeComponent implements OnInit {
     );
   }
 
-  editPizza(pizza: Pizza){
-
+  addToCart(){
+    this.toastr.error("Under development!", 'Error', {
+      positionClass: 'toast-bottom-center',
+    });
   }
 
 }

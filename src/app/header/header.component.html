@@ -31,7 +31,7 @@
     <div class="navbar-collapse justify-content-end">
       <ul class="navbar-nav ml-auto">
         <li class="nav-item">
-          <a class="nav-link" [routerLink]="['/login']" *ngIf="!user"><fa-icon title="Logout" [icon]="faSignInAlt"></fa-icon> Login</a>
+          <a class="nav-link" [routerLink]="['/login']" *ngIf="!user"><fa-icon title="Login" [icon]="faSignInAlt"></fa-icon> Login</a>
           <a class="nav-link logout" (click)="logout()" *ngIf="user"><fa-icon title="Logout" [icon]="faSignOutAlt"></fa-icon> Logout</a>
         </li>
       </ul>

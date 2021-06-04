@@ -6,8 +6,27 @@ ul{
   width: 200px;
 }
 
-button{
-  width: 120px;
+
+fa-icon{
+  font-size: 30px;
+}
+
+fa-icon:hover{
+  cursor: pointer;
+}
+
+.edit{
+  color:brown;
+}
+.cart{
+  padding-right: 5px;
+}
+
+.activate{
+  color: green;
+}
+.deactivate{
+  color: red;
 }
 
 .filter-toppings{
