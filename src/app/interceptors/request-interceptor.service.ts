@@ -18,7 +18,16 @@ export class RequestInterceptorService implements HttpInterceptor{
         Authorization: authorization,
       }),
     });
-console.log();
+    const putHeader = req.clone({
+      headers: new HttpHeaders({
+        'Access-Control-Allow-Origin': '*',
+        Authorization: authorization,
+      }),
+    });
+
+    if ((req.method == 'POST') && req.url.match('/auth')) {
+      return next.handle(putHeader);
+    }
     return next.handle(authReq);
   }
 
