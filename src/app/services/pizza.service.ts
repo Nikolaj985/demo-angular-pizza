@@ -28,6 +28,14 @@ export class PizzaService {
     return this.httpClient.put<ResponseData>(URL+"/pizza", pizza.name);
   }
 
+  getPizzaByName(name: string){
+    return this.httpClient.get<Pizza>(URL+"/pizza/"+name);
+  }
+
+  editPizza(pizzaToEdit: Pizza){
+    return this.httpClient.put<ResponseData>(URL+'/pizza/edit', pizzaToEdit);
+  }
+
 
 
 

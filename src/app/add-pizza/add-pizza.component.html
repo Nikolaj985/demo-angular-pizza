@@ -1,159 +1,193 @@
 <div class="container">
   <div class="row align-items-start">
     <div class="col-md-10">
-     <!-- Form begins -->
+      <!-- Form begins -->
 
-
-     <form  [formGroup]="newPizzaForm" (submit)="submitForm()" class="form-floating">
-      <h2 class="text-center">Add new Pizza</h2>
-      <div class="row g-2">
-        <div class="col-md">
-          <div class="form-floating">
-            <input type="text" class="form-control" id="floatingInputGrid" value="Pizza Name" id="name" formControlName="name">
-            <label for="floatingInputGrid">Name</label>
-          </div>
-          <div class="form-floating">
-            <input type="text" class="form-control" id="floatingInputGrid" id="imageLink" formControlName="imageLink">
-            <label for="floatingInputGrid">Image link</label>
-          </div>
-          <div class="form-floating">
-            <input type="number" class="form-control" id="floatingInputGrid" value="0" min="0" id="price" formControlName="price">
-            <label for="floatingInputGrid">Price</label>
-          </div>
-          <div class="form-floating">
-            <select class="form-select"  formControlName="heat">
-              <option value="0">Mild</option>
-              <option value="1">Hot</option>
-              <option value="2">Spicy</option>
-            </select>
-            <label for="floatingInputGrid">Heat</label>
-          </div>
-          <div class="form-floating">
-            <input type="number" class="form-control" id="floatingInputGrid" value="0" min="0" id="salePrice" formControlName="salePrice">
-            <label for="floatingInputGrid">Sale price</label>
-          </div>
-          <div class="row g-2" *ngIf="toppingsFromDB.length!=0">
+      <form
+        [formGroup]="newPizzaForm"
+        (submit)="submitForm()"
+        class="form-floating"
+      >
+        <h2 class="text-center">Add new Pizza</h2>
+        <div class="row g-2">
+          <div class="col-md">
+            <div class="form-floating">
+              <input
+                type="text"
+                class="form-control"
+                id="floatingInputGrid"
+                value="Pizza Name"
+                id="name"
+                formControlName="name"
+              />
+              <label for="floatingInputGrid">Name</label>
+            </div>
+            <div class="form-floating">
+              <input
+                type="text"
+                class="form-control"
+                id="floatingInputGrid"
+                id="imageLink"
+                formControlName="imageLink"
+              />
+              <label for="floatingInputGrid">Image link</label>
+            </div>
+            <div class="form-floating">
+              <input
+                type="number"
+                class="form-control"
+                id="floatingInputGrid"
+                value="0"
+                min="0"
+                id="price"
+                formControlName="price"
+              />
+              <label for="floatingInputGrid">Price</label>
+            </div>
+            <div class="form-floating">
+              <select class="form-select" formControlName="heat">
+                <option value="0">Mild</option>
+                <option value="1">Hot</option>
+                <option value="2">Spicy</option>
+              </select>
+              <label for="floatingInputGrid">Heat</label>
+            </div>
+            <div class="form-floating">
+              <input
+                type="number"
+                class="form-control"
+                id="floatingInputGrid"
+                value="0"
+                min="0"
+                id="salePrice"
+                formControlName="salePrice"
+              />
+              <label for="floatingInputGrid">Sale price</label>
+            </div>
+            <div class="row g-2" *ngIf="toppingsFromDB.length != 0">
               <div>
                 <h4>Select toppings:</h4>
                 <div class="row g-2" no-spaces>
                   <div class="col-md-10">
-                <select class="form-select"  formControlName="toppings">
-                  <option default value="">Select topping</option>
-                  <option *ngFor="let item of toppingsFromDB; let z = index" value="{{z}}">{{item.description}}</option>
-                </select>
+                    <select class="form-select" formControlName="toppings">
+                      <option default value="">Select topping</option>
+                      <option
+                        *ngFor="let item of toppingsFromDB; let z = index"
+                        value="{{ z }}"
+                      >
+                        {{ item.description }}
+                      </option>
+                    </select>
+                  </div>
+                  <div class="col-md-2">
+                    <button
+                      type="button"
+                      class="btn btn-primary select"
+                      (click)="selectTopping()"
+                    >
+                      Select
+                    </button>
+                  </div>
                 </div>
-                <div class="col-md-2 ">
-                  <button type="button" class="btn btn-primary select" (click)="selectTopping()">Select</button>
-                </div>
-                </div>
-                </div>
-
-          </div>
-
-        </div>
-        <div class="col-md">
-          <div class="text-center">
-            <img src="{{imageLink.value==''? '../../assets/no_image.jpg' : imageLink.value}}" width="300px" class="rounded" alt="...">
-          </div>
-          <h4>Toppings selected:</h4>
-          <ul class="list-group" >
-            <li class="list-group-item"*ngFor="let topping of selectedToppings; let i = index">{{topping.description}}<button type="button" class="btn-close float-end" (click)="deleteSelectedTopping(i)" aria-label="Close"></button></li>
-
-          </ul>
-        </div>
-      </div>
-      <div class="row save">
-        <button class="btn btn-success" [disabled]="!newPizzaForm.valid">
-          Save Pizza
-        </button>
-      </div>
-    </form>
-
-     <!-- <form [formGroup]="newPizzaForm" (submit)="submitForm()" class="black-border">
-      <h2 class="text-center">Add new Pizza</h2>
-      <div class="form-group">
-        <div class="input-group">
-          <div class="input-group-prepend">
-            <div class="input-group-text">T</div>
-          </div>
-          <input class="form-control" id="username" type="text" formControlName="username" />
-        </div>
-        <div class="text-muted" style="visibility: {{!username.errors?.minlength ? 'hidden': 'visible'}};"
-          [hidden]="username.errors?.maxlength">Username should be atleast 5 characters long!</div>
-        <div class="text-muted" [hidden]="!username.errors?.maxlength">Username should not be longer than 40 characters!</div>
-      </div>
-      <div class="form-group">
-        <div class="input-group">
-          <div class="input-group-prepend">
-            <div class="input-group-text">E-mail</div>
-          </div>
-          <input class="form-control" id="email" type="email" formControlName="email" />
-        </div>
-        <div style="visibility: {{!email.errors?.pattern ? 'hidden': 'visible'}};" class="text-muted">
-          Please check e-mail address format!
-        </div>
-      </div>
-      <div class="form-group">
-        <div class="input-group">
-          <div class="input-group-prepend">
-            <div class="input-group-text">Password</div>
-          </div>
-          <input class="form-control" id="password" type="password" formControlName="password" />
-        </div>
-        <div [hidden]="password.errors?.maxlength"
-          style="visibility: {{!password.errors?.pattern ? 'hidden': 'visible'}};" class="text-muted">
-          Password should be at least 8 characters long and contain at least
-          one digit!
-        </div>
-        <div [hidden]="!password.errors?.maxlength" class="text-muted">
-          Password should not be longer than 50 characters!
-        </div>
-      </div>
-      <div class="form-group"><a routerLink="/login">Back to login</a>
-        <div class="float-right">
-          <button class="btn btn-primary" [disabled]="!newPizzaForm.valid">
-            Register
-          </button>
-        </div>
-      </div>
-    </form> -->
-      <!-- Form ends -->
-    </div>
-     <div class="col-md-2">
-      <div class="row align-items-start">
-        <div class="col-md-12">
-         <form  [formGroup]="newToppingForm" (submit)="submitToppingForm()" class="form-floating">
-          <h6 class="text-center">Add new Topping</h6>
-          <div class="row g-2">
-            <div class="col-md">
-              <div class="form-floating">
-                <input type="text" class="form-control" id="floatingInputGrid" id="toppingName" formControlName="toppingName">
-                <label for="floatingInputGrid">Topping Name</label>
               </div>
             </div>
-            <button class="btn btn-success" [disabled]="!newToppingForm.valid">
-              Save Topping
-            </button>
           </div>
-        </form>
+          <div class="col-md">
+            <div class="text-center">
+              <img
+                src="{{
+                  imageLink.value == ''
+                    ? '../../assets/no_image.jpg'
+                    : imageLink.value
+                }}"
+                width="300px"
+                class="rounded"
+                alt="..."
+              />
+            </div>
+            <h4>Toppings selected:</h4>
+            <ul class="list-group">
+              <li
+                class="list-group-item"
+                *ngFor="let topping of selectedToppings; let i = index"
+              >
+                {{ topping.description
+                }}<button
+                  type="button"
+                  class="btn-close float-end"
+                  (click)="deleteSelectedTopping(i)"
+                  aria-label="Close"
+                ></button>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="row save">
+          <button class="btn btn-success" [disabled]="!newPizzaForm.valid" *ngIf="!editMode">
+            Save Pizza
+          </button>
+          <button type="button" class="btn btn-success" [disabled]="!newPizzaForm.valid" *ngIf="editMode" (click)="editPizza()">
+            Save changes
+          </button>
+        </div>
+      </form>
+      <!-- Form ends -->
+    </div>
+    <div class="col-md-2">
+      <div class="row align-items-start">
+        <div class="col-md-12">
+          <form
+            [formGroup]="newToppingForm"
+            (submit)="submitToppingForm()"
+            class="form-floating"
+          >
+            <h6 class="text-center">Add new Topping</h6>
+            <div class="row g-2">
+              <div class="col-md">
+                <div class="form-floating">
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="floatingInputGrid"
+                    id="toppingName"
+                    formControlName="toppingName"
+                  />
+                  <label for="floatingInputGrid">Topping Name</label>
+                </div>
+              </div>
+              <button
+                class="btn btn-success"
+                [disabled]="!newToppingForm.valid"
+              >
+                Save Topping
+              </button>
+            </div>
+          </form>
         </div>
       </div>
       <div class="row align-items-start">
         <div class="col-md-12">
-          <form  [formGroup]="deleteToppingForm" (submit)="deleteTopping()" class="form-floating">
+          <form
+            [formGroup]="deleteToppingForm"
+            (submit)="deleteTopping()"
+            class="form-floating"
+          >
             <h6 class="text-center">Delete Topping</h6>
             <div class="row g-2">
               <div class="col-md">
                 <div>
-                  <select class="form-select"  formControlName="toppingToDelete">
+                  <select class="form-select" formControlName="toppingToDelete">
                     <option default value="">Select topping</option>
-                    <option *ngFor="let topping of toppingsFromDB; let i = index" value="{{topping.description}}">{{topping.description}}</option>
+                    <option
+                      *ngFor="let topping of toppingsFromDB; let i = index"
+                      value="{{ topping.description }}"
+                    >
+                      {{ topping.description }}
+                    </option>
                   </select>
                 </div>
               </div>
-              <button class="btn btn-danger" >
-                Delete Topping
-              </button>
+              <button class="btn btn-danger">Delete Topping</button>
             </div>
           </form>
         </div>

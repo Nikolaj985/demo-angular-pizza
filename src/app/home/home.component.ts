@@ -26,6 +26,7 @@ export class HomeComponent implements OnInit {
   public direction = 1;
   public mild: Heat = Heat.MILD;
   public hot: Heat = Heat.HOT;
+  public editMode: boolean = false;
 
 
   constructor(private pizzaService: PizzaService, private toastr: ToastrService) {}
@@ -153,6 +154,10 @@ export class HomeComponent implements OnInit {
         });
       }
     );
+  }
+
+  editPizza(pizza: Pizza){
+
   }
 
 }

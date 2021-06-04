@@ -11,6 +11,7 @@ const routes: Routes = [
   { path: 'home', component: HomeComponent},
   { path: 'signup', component: SignupFormComponent},
   { path: 'add', component: AddPizzaComponent, canActivate: [AuthGuard]},
+  { path: 'edit/:pizzaName', component: AddPizzaComponent, canActivate: [AuthGuard] },
   //{ path: '', redirectTo: 'students', pathMatch: 'full' },
   // {
   //   path: '',

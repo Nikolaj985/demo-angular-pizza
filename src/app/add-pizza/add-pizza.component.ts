@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Pizza } from '../model/pizza';
 import { Topping } from '../model/topping';
 import { PizzaService } from '../services/pizza.service';
 import { ToppingService } from '../services/topping.service';
+import { map } from 'rxjs/operators';
 import { UserService } from '../services/user.service';
 
 @Component({
@@ -18,17 +20,21 @@ export class AddPizzaComponent implements OnInit {
   public deleteToppingForm: FormGroup = this.formGroupConfig();
   public selectedToppings: Topping[] = [];
   public toppingsFromDB: Topping[] = [];
-  public imageLinkEntered: string = '';
+  public imageLinkEntered: string = "";
+  private pizzaName: string;
+  public editMode: boolean = false;
 
   constructor(
     private fb: FormBuilder,
-    private userService: UserService,
+    private activatedRoad: ActivatedRoute,
     private toastr: ToastrService,
     private toppingService: ToppingService,
-    private pizzaService: PizzaService
+    private pizzaService: PizzaService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
+    this.editMode = false;
     this.toppingService.getAllToppings().subscribe((response) => {
       response.forEach((element) => {
         this.toppingsFromDB.push(element);
@@ -103,7 +109,31 @@ export class AddPizzaComponent implements OnInit {
         },
       ],
     });
+this.activatedRoad.paramMap.pipe(map(paramMap => paramMap.get('pizzaName'))).subscribe(value=>{
+this.pizzaName = value;
+this.pizzaName ?   this.editMode = true : this.editMode = false;
+this.loadPizza();
+});
+
   }
+
+  loadPizza(){
+
+    this.pizzaService.getPizzaByName(this.pizzaName).subscribe(pizza=>{
+      console.log(pizza.heat);
+      this.name.setValue(pizza.name);
+      this.imageLink.setValue(pizza.image);
+      this.heat.setValue(pizza.heat == "MILD"? 0 : pizza.heat == "HOT" ? 1 : 2 );
+      this.price.setValue(pizza.price);
+      this.salePrice.setValue(pizza.salePrice);
+      this.selectedToppings = pizza.toppings;
+      this.selectedToppings.forEach(element => {
+        this.toppingsFromDB.splice(this.toppingsFromDB.indexOf(this.toppingsFromDB.find(topping => topping.description == element.description )),1);
+      });
+    })
+  }
+
+
 
   formGroupConfig() {
     return (this.deleteToppingForm = this.fb.group({
@@ -166,6 +196,7 @@ export class AddPizzaComponent implements OnInit {
     }
   }
 
+
   submitToppingForm() {
     const newTopping: Topping = {
       description: this.toppingName.value,
@@ -201,7 +232,7 @@ export class AddPizzaComponent implements OnInit {
               (i) => i.description == this.toppingToDelete.value
             );
             this.toppingsFromDB.splice(toppingToDeleteIndex, 1);
-            this.toastr.success(response.message, 'Topping deleted!', {
+            this.toastr.success(response.message, 'Success', {
               positionClass: 'toast-bottom-center',
             });
             this.deleteToppingForm.reset({ toppingToDelete: '' });
@@ -214,6 +245,44 @@ export class AddPizzaComponent implements OnInit {
         );
     }
   }
+
+  editPizza(){
+    if (this.selectedToppings.length < 1) {
+      this.toastr.error('Select atleast one topping!', 'Error', {
+        positionClass: 'toast-bottom-center',
+      });
+    } else if (this.price.value <= this.salePrice.value) {
+      this.toastr.error('Price should be greater than sale price!', 'Error', {
+        positionClass: 'toast-bottom-center',
+      });
+    } else {
+      const pizzaToEdit: Pizza = {
+        name: this.name.value,
+        price: this.price.value,
+        image: this.imageLink.value,
+        heat: this.heat.value,
+        salePrice: this.salePrice.value,
+        toppings: this.selectedToppings,
+      };
+
+      this.pizzaService.editPizza(pizzaToEdit).subscribe(
+        (response) => {
+          this.toastr.success(response.message, 'Success', {
+            positionClass: 'toast-bottom-center',
+          });
+          this.router.navigate(['home']);
+
+        },
+        (error) => {
+          console.log(error);
+          this.toastr.error(error.error.message, 'Error', {
+            positionClass: 'toast-bottom-center',
+          });
+        }
+      );
+    }
+  }
+
 
   submitForm() {
     if (this.selectedToppings.length < 1) {

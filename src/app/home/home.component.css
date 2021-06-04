@@ -6,6 +6,10 @@ ul{
   width: 200px;
 }
 
+button{
+  width: 120px;
+}
+
 .filter-toppings{
   border-style: solid;
   border-radius: 5px;

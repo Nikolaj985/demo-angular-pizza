@@ -15,7 +15,7 @@
               />
             </th>
             <ng-container *ngFor="let item of tableHeaderNames">
-              <th scope="col" *ngIf="item == 'Toppings' || item == 'Action'">
+              <th scope="col" *ngIf="item == 'Toppings' || item == 'Action'" >
                 {{ item }}
               </th>
               <th
@@ -68,10 +68,11 @@
                 }}
               </div>
             </td>
-            <td class="align-middle">
-              <button type="button" class="btn btn-success">Add to Cart</button>
+            <td class="align-middle actions">
+              <button type="button" class="btn btn-success">Add to Cart</button><br>
               <button type="button" (click)="deletePizza(pizza)" class="btn btn-danger" *ngIf="pizza.isActive">Deactivate</button>
-              <button type="button" (click)="activatePizza(pizza)" class="btn btn-primary" *ngIf="!pizza.isActive">Activate</button>
+              <button type="button" (click)="activatePizza(pizza)" class="btn btn-primary" *ngIf="!pizza.isActive">Activate</button><br>
+              <button type="button" [routerLink]="['/edit', pizza.name]" class="btn btn-warning">Edit Pizza</button>
             </td>
           </tr>
         </tbody>
