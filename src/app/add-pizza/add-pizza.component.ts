@@ -287,6 +287,10 @@ export class AddPizzaComponent implements OnInit {
     }
   }
 
+  sortedToppings(): Topping[]{
+    return this.toppingsFromDB.sort((a,b)=> a.description > b.description ? 1 : -1);
+  }
+
   submitForm() {
     if (this.selectedToppings.length < 1) {
       this.toastr.error('Select atleast one topping!', 'Error', {

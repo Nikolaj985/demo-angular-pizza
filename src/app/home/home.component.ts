@@ -127,8 +127,6 @@ export class HomeComponent implements OnInit {
       }
       break;
     }
-
-    console.log(item);
   }
 
   deleteSelectedTopping(index: number) {
@@ -148,7 +146,6 @@ export class HomeComponent implements OnInit {
 
       },
       (error) => {
-        console.log(error);
         this.toastr.error(error.error.message, 'Error', {
           positionClass: 'toast-bottom-center',
         });
@@ -166,7 +163,6 @@ export class HomeComponent implements OnInit {
 
       },
       (error) => {
-        console.log(error);
         this.toastr.error(error.error.message, 'Error', {
           positionClass: 'toast-bottom-center',
         });

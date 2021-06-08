@@ -72,7 +72,7 @@
                     <select class="form-select" formControlName="toppings">
                       <option default value="">Select topping</option>
                       <option
-                        *ngFor="let item of toppingsFromDB; let z = index"
+                        *ngFor="let item of sortedToppings(); let z = index"
                         value="{{ z }}"
                       >
                         {{ item.description }}
