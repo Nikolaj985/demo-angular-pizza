@@ -8,7 +8,6 @@ import { PizzaService } from '../services/pizza.service';
 import { ToppingService } from '../services/topping.service';
 import { map } from 'rxjs/operators';
 
-
 @Component({
   selector: 'app-add-pizza',
   templateUrl: './add-pizza.component.html',
@@ -20,7 +19,7 @@ export class AddPizzaComponent implements OnInit {
   public deleteToppingForm: FormGroup = this.formGroupConfig();
   public selectedToppings: Topping[] = [];
   public toppingsFromDB: Topping[] = [];
-  public imageLinkEntered: string = "";
+  public imageLinkEntered: string = '';
   private pizzaName: string;
   public editMode: boolean = false;
 
@@ -34,7 +33,16 @@ export class AddPizzaComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.editMode = false;
+    this.activatedRoad.paramMap
+      .pipe(map((paramMap) => paramMap.get('pizzaName')))
+      .subscribe((value) => {
+        this.pizzaName = value;
+        this.pizzaName ? (this.editMode = true) : (this.editMode = false);
+        if (this.editMode) {
+          this.loadPizza();
+        }
+      });
+
     this.toppingService.getAllToppings().subscribe((response) => {
       response.forEach((element) => {
         this.toppingsFromDB.push(element);
@@ -109,31 +117,30 @@ export class AddPizzaComponent implements OnInit {
         },
       ],
     });
-this.activatedRoad.paramMap.pipe(map(paramMap => paramMap.get('pizzaName'))).subscribe(value=>{
-this.pizzaName = value;
-this.pizzaName ?   this.editMode = true : this.editMode = false;
-this.loadPizza();
-});
-
   }
 
-  loadPizza(){
-
-    this.pizzaService.getPizzaByName(this.pizzaName).subscribe(pizza=>{
-      console.log(pizza.heat);
+  loadPizza() {
+    this.pizzaService.getPizzaByName(this.pizzaName).subscribe((pizza) => {
       this.name.setValue(pizza.name);
       this.imageLink.setValue(pizza.image);
-      this.heat.setValue(pizza.heat == "MILD"? 0 : pizza.heat == "HOT" ? 1 : 2 );
+      this.heat.setValue(
+        pizza.heat == 'MILD' ? 0 : pizza.heat == 'HOT' ? 1 : 2
+      );
       this.price.setValue(pizza.price);
       this.salePrice.setValue(pizza.salePrice);
       this.selectedToppings = pizza.toppings;
-      this.selectedToppings.forEach(element => {
-        this.toppingsFromDB.splice(this.toppingsFromDB.indexOf(this.toppingsFromDB.find(topping => topping.description == element.description )),1);
+      this.selectedToppings.forEach((element) => {
+        this.toppingsFromDB.splice(
+          this.toppingsFromDB.indexOf(
+            this.toppingsFromDB.find(
+              (topping) => topping.description == element.description
+            )
+          ),
+          1
+        );
       });
-    })
+    });
   }
-
-
 
   formGroupConfig() {
     return (this.deleteToppingForm = this.fb.group({
@@ -196,7 +203,6 @@ this.loadPizza();
     }
   }
 
-
   submitToppingForm() {
     const newTopping: Topping = {
       description: this.toppingName.value,
@@ -246,7 +252,7 @@ this.loadPizza();
     }
   }
 
-  editPizza(){
+  editPizza() {
     if (this.selectedToppings.length < 1) {
       this.toastr.error('Select atleast one topping!', 'Error', {
         positionClass: 'toast-bottom-center',
@@ -271,10 +277,8 @@ this.loadPizza();
             positionClass: 'toast-bottom-center',
           });
           this.router.navigate(['home']);
-
         },
         (error) => {
-          console.log(error);
           this.toastr.error(error.error.message, 'Error', {
             positionClass: 'toast-bottom-center',
           });
@@ -307,13 +311,19 @@ this.loadPizza();
           this.toastr.success(response.message, 'Pizza added!', {
             positionClass: 'toast-bottom-center',
           });
-          this.newPizzaForm.reset({imageLink: '', heat: '0', price: '0', salePrice: '0', toppings: ''});
-          this.toppingsFromDB = this.toppingsFromDB.concat(this.selectedToppings);
+          this.newPizzaForm.reset({
+            imageLink: '',
+            heat: '0',
+            price: '0',
+            salePrice: '0',
+            toppings: '',
+          });
+          this.toppingsFromDB = this.toppingsFromDB.concat(
+            this.selectedToppings
+          );
           this.selectedToppings = [];
-
         },
         (error) => {
-          console.log(error);
           this.toastr.error(error.error.message, 'Error', {
             positionClass: 'toast-bottom-center',
           });
