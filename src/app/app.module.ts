@@ -14,6 +14,8 @@ import { ToastrModule } from 'ngx-toastr';
 import { AddPizzaComponent } from './add-pizza/add-pizza.component';
 import { RequestInterceptorService } from './interceptors/request-interceptor.service';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { ResponseInterceptorService } from './interceptors/response-interceptor.service';
+import { SpinnerComponent } from './spinner/spinner.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +24,8 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     LoginFormComponent,
     HomeComponent,
     SignupFormComponent,
-    AddPizzaComponent
+    AddPizzaComponent,
+    SpinnerComponent
   ],
   imports: [
     AppRoutingModule,
@@ -38,6 +41,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: RequestInterceptorService, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ResponseInterceptorService, multi: true },
   ],
   bootstrap: [AppComponent]
 })

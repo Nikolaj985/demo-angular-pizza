@@ -1,16 +1,29 @@
-import { HttpEvent, HttpHandler, HttpHeaders, HttpInterceptor, HttpRequest } from '@angular/common/http';
+import {
+  HttpEvent,
+  HttpHandler,
+  HttpHeaders,
+  HttpInterceptor,
+  HttpRequest,
+} from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { LoaderService } from '../services/loader.service';
 import { LoginService } from '../services/login.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-export class RequestInterceptorService implements HttpInterceptor{
+export class RequestInterceptorService implements HttpInterceptor {
+  constructor(
+    private loginService: LoginService,
+    private loader: LoaderService
+  ) {}
 
-  constructor(private loginService: LoginService) { }
-
-  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+  intercept(
+    req: HttpRequest<any>,
+    next: HttpHandler
+  ): Observable<HttpEvent<any>> {
+    this.loader.setLoading(true, req.url);
     const authorization = 'Bearer ' + this.loginService.getToken();
     const authReq = req.clone({
       headers: new HttpHeaders({
@@ -25,11 +38,9 @@ export class RequestInterceptorService implements HttpInterceptor{
       }),
     });
 
-    if ((req.method == 'POST') && req.url.match('/auth')) {
+    if (req.method == 'POST' && req.url.match('/auth')) {
       return next.handle(putHeader);
     }
     return next.handle(authReq);
   }
-
-
 }
