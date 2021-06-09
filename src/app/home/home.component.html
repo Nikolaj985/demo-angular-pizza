@@ -1,5 +1,45 @@
 <div class="container">
   <div class="row">
+    <div class="col-lg-2">
+      <div class="filter-toppings">
+        <h6>Filter by Toppings</h6>
+        <div class="row g-2">
+          <div class="col-md">
+            <div>
+              <select
+                class="form-select"
+                (change)="addToppingToFiltration($event)"
+              >
+                <option default value="">Select topping</option>
+                <option
+                  *ngFor="let topping of activeUniqueToppings; let i = index"
+                  value="{{ i }}"
+                >
+                  {{ topping.description }}
+                </option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="selected-toppings" *ngIf="selectedToppings.length > 0">
+          <h6>Selected Toppings</h6>
+          <ul class="list-group">
+            <li
+              class="list-group-item"
+              *ngFor="let topping of selectedToppings; let i = index"
+            >
+              {{ topping.description
+              }}<button
+                type="button"
+                class="btn-close float-end"
+                (click)="deleteSelectedTopping(i)"
+                aria-label="Close"
+              ></button>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
     <div class="col-lg-10">
       <table class="table table-striped">
         <thead>
@@ -78,45 +118,6 @@
         </tbody>
       </table>
     </div>
-    <div class="col-lg-2">
-      <div class="filter-toppings">
-        <h6>Filter by Toppings</h6>
-        <div class="row g-2">
-          <div class="col-md">
-            <div>
-              <select
-                class="form-select"
-                (change)="addToppingToFiltration($event)"
-              >
-                <option default value="">Select topping</option>
-                <option
-                  *ngFor="let topping of activeUniqueToppings; let i = index"
-                  value="{{ i }}"
-                >
-                  {{ topping.description }}
-                </option>
-              </select>
-            </div>
-          </div>
-        </div>
-        <div class="selected-toppings" *ngIf="selectedToppings.length > 0">
-          <h6>Selected Toppings</h6>
-          <ul class="list-group">
-            <li
-              class="list-group-item"
-              *ngFor="let topping of selectedToppings; let i = index"
-            >
-              {{ topping.description
-              }}<button
-                type="button"
-                class="btn-close float-end"
-                (click)="deleteSelectedTopping(i)"
-                aria-label="Close"
-              ></button>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
+
   </div>
 </div>
