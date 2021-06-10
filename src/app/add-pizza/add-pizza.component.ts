@@ -83,7 +83,7 @@ export class AddPizzaComponent implements OnInit {
       price: [
         '0',
         {
-          validators: [Validators.required],
+          validators: [Validators.required, Validators.min(5)],
           updateOn: 'blur',
         },
       ],
@@ -298,6 +298,14 @@ export class AddPizzaComponent implements OnInit {
       });
     } else if (this.price.value <= this.salePrice.value) {
       this.toastr.error('Price should be greater than sale price!', 'Error', {
+        positionClass: 'toast-bottom-center',
+      });
+    } else if (this.price.value < 5) {
+      this.toastr.error('Price can\'t be less than 5!', 'Error', {
+        positionClass: 'toast-bottom-center',
+      });
+    } else if (this.salePrice.value < 4 && this.salePrice.value != 0 ) {
+      this.toastr.error('Sale price can\'t be less than 4 or should be equal 0!', 'Error', {
         positionClass: 'toast-bottom-center',
       });
     } else {

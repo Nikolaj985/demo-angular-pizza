@@ -7,7 +7,7 @@ import { registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
 import { Heat } from '../model/heat';
 import { ToastrService } from 'ngx-toastr';
-import { faTimesCircle, faCheckCircle, faEdit, faCartPlus  } from '@fortawesome/free-solid-svg-icons';
+import { faTimesCircle, faCheckCircle, faEdit, faCartPlus, faSort, faSortUp, faSortDown} from '@fortawesome/free-solid-svg-icons';
 import { LoginService } from '../services/login.service';
 
 
@@ -34,11 +34,12 @@ export class HomeComponent implements OnInit {
   public faCheckCircle = faCheckCircle;
   public faEdit = faEdit;
   public faCartPlus = faCartPlus;
-
-
+  public faSort = faSort;
+  public faSortUp = faSortUp;
+  public faSortDown = faSortDown;
+  public activeNameArrow = "faSort";
 
   constructor(private pizzaService: PizzaService, private toastr: ToastrService, private loginService: LoginService) {}
-
 
   ngOnInit(): void {
     this.pizzaService.getAllPizzas().subscribe((response) => {
